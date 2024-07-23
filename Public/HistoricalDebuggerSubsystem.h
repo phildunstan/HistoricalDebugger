@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
+#include "HistoricalDebuggerDebugChannel.h"
+#include "HistoricalDebuggerDebugContext.h"
 #include "HistoricalDebuggerManager.h"
 #include "HistoricalDebuggerSubsystem.generated.h"
 
