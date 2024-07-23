@@ -165,7 +165,7 @@ FHistoricalDebuggerDebugChannel * FHistoricalDebuggerManager::GetDebugChannel(co
 }
 #endif
 
-void FHistoricalDebuggerManager::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld)
+void FHistoricalDebuggerManager::SetWorld(UWorld* NewWorld)
 {
 	World = NewWorld;
 	Reset();
