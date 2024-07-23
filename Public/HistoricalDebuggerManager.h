@@ -76,7 +76,7 @@ public:
 	FHistoricalDebuggerDebugChannel* GetDebugChannel(const FNoLoggingCategory& LogCategory) { return nullptr; }
 #endif
 
-	void OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld);
+	void SetWorld(UWorld* NewWorld);
 
 	void SetTimeSeconds(float NewDrawTimeSeconds);
 	float GetDebugTimeSeconds() const { return DebugFilter.DrawTimeSeconds; }
