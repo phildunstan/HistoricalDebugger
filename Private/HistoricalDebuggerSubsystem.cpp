@@ -12,8 +12,10 @@ bool UHistoricalDebuggerSubsystem::IsTickableWhenPaused() const
 
 void UHistoricalDebuggerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
+#if ENABLE_HISTORICALDEBUGGER
 	HistoricalDebuggerManager = &FHistoricalDebuggerManager::Get();
 	HistoricalDebuggerManager->SetSettings(HistoricalDebuggerSettingsDataAsset);
+#endif
 	Super::Initialize(Collection);
 }
 
@@ -24,9 +26,10 @@ void UHistoricalDebuggerSubsystem::Deinitialize()
 
 void UHistoricalDebuggerSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 {
-	Super::OnWorldBeginPlay(InWorld);
-
+#if ENABLE_HISTORICALDEBUGGER
 	HistoricalDebuggerManager->SetWorld(&InWorld);
+#endif
+	Super::OnWorldBeginPlay(InWorld);
 }
 
 void UHistoricalDebuggerSubsystem::Tick(float DeltaTime)

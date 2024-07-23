@@ -26,7 +26,7 @@ public:
 	
 	virtual TStatId GetStatId() const override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Historical Debugger")
+	UPROPERTY(EditDefaultsOnly, Category = "Historical Debugger")
 	TObjectPtr<UHistoricalDebuggerSettingsDataAsset> HistoricalDebuggerSettingsDataAsset;
 
 	
@@ -51,12 +51,8 @@ private:
 	FHistoricalDebuggerManager* HistoricalDebuggerManager = nullptr;
 	
 #else
-	static FHistoricalDebuggerManager* GetHistoricalDebuggerManager(UWorld* World) const { return nullptr; }
-	
+	static FHistoricalDebuggerManager* GetHistoricalDebuggerManager(const UWorld* const World) { return nullptr; }
 	template <typename TChannelIdentifier>
-	static FHistoricalDebuggerDebugChannel* GetDebugChannel(const TChannelIdentifier& Identifier)
-	{
-		return nullptr;
-	}
+	static FHistoricalDebuggerDebugChannel* GetDebugChannel(const UWorld* const World, const TChannelIdentifier& Identifier) { return nullptr; }
 #endif
 };
