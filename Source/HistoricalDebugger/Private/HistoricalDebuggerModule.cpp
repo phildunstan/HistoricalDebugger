@@ -4,6 +4,7 @@
 #include "HistoricalDebuggerVisualLoggerExtension.h"
 
 #include "ConsoleSettings.h"
+#include "HistoricalDebuggerSubsystem.h"
 #include "Engine/Console.h"
 
 #define LOCTEXT_NAMESPACE "FHistoricalDebuggerModule"
@@ -38,7 +39,7 @@ FAutoConsoleCommand EnableDebugChannelCommand(
 void FHistoricalDebuggerModule::StartupModule()
 {
 	// force initialization of the historical debugger manager
-	FHistoricalDebuggerManager::Get();
+	UHistoricalDebuggerSubsystem::StaticClass()->AddToRoot();
 	
 	UConsole::RegisterConsoleAutoCompleteEntries.AddLambda([](TArray<FAutoCompleteCommand>& AutoCompleteList)
 		{
@@ -64,6 +65,8 @@ void FHistoricalDebuggerModule::ShutdownModule()
 #if ENABLE_VISUAL_LOG
 	FVisualLogger::Get().UnregisterExtension(FName("HistoricalDebugger"), nullptr);
 #endif
+	
+    UHistoricalDebuggerSubsystem::StaticClass()->RemoveFromRoot();
 }
 
 #undef LOCTEXT_NAMESPACE

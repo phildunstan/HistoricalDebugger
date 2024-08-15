@@ -4,6 +4,8 @@
 #include "HistoricalDebuggerSubsystem.h"
 
 #include "HistoricalDebuggerManager.h"
+#include "HistoricalDebuggerVisualLogDevice.h"
+#include "VisualLogger/VisualLogger.h"
 
 bool UHistoricalDebuggerSubsystem::IsTickableWhenPaused() const
 {
@@ -16,6 +18,12 @@ void UHistoricalDebuggerSubsystem::Initialize(FSubsystemCollectionBase& Collecti
 	HistoricalDebuggerManager = &FHistoricalDebuggerManager::Get();
 	HistoricalDebuggerManager->SetSettings(HistoricalDebuggerSettingsDataAsset);
 #endif
+	
+#if ENABLE_VISUAL_LOG
+	FVisualLogger& VisualLogger = FVisualLogger::Get();
+	VisualLogger.AddDevice(new FHistoricalDebuggerVisualLogDevice());
+#endif
+	
 	Super::Initialize(Collection);
 }
 

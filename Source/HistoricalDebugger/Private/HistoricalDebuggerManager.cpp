@@ -249,7 +249,7 @@ void FHistoricalDebuggerManager::Tick(float DeltaTime)
 void FHistoricalDebuggerManager::DrawImGui()
 {
 #if WITH_EDITOR
-	static bool ImGuiWindow = false;
+	static bool ImGuiWindow = true;
 	if (ImGui::Begin("Historical Debugger", &ImGuiWindow, 0))
 	{
         const char* DrawModeStrings[] = { "None", "Viewport", "VisLog", "All" };

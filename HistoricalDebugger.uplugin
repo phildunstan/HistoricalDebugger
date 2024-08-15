@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1.0",
+	"FriendlyName": "HistoricalDebugger",
+	"Description": "",
+	"Category": "Debugging",
+	"CreatedBy": "Philip Dunstan",
+	"CreatedByURL": "https://philipdunstan.com",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsEnabledByDefault": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "HistoricalDebugger",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ImGui",
+			"Enabled": true
+		}
+	]
+}
