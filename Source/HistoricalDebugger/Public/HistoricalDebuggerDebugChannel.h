@@ -56,7 +56,10 @@ public:
 	void DrawSolidPlane(const FHistoricalDebuggerDebugContext& DebugContext, const FPlane& P, const FVector& Loc, float Size, const FColor& Color);
 	void DrawSolidPlane(const FHistoricalDebuggerDebugContext& DebugContext, const FPlane& P, const FVector& Loc, const FVector2D& Extents, const FColor& Color);
 	
+	void DrawHUDString(const FHistoricalDebuggerDebugContext& DebugContext, const FVector2D& HUDTextLocation, const FString& Text, const FColor& TextColor = FColor::White, bool bDrawShadow = false, float FontScale = 1.f);
+	
 	void DrawHitResult(const FHistoricalDebuggerDebugContext& DebugContext, const FHitResult& HitResult);
+	void DrawHitResults(const FHistoricalDebuggerDebugContext& DebugContext, const FVector& StartLocation, const FVector& EndLocation, const TArray<FHitResult>& HitResults);
 	void DrawSkeleton(const FHistoricalDebuggerDebugContext& DebugContext, const USkeleton* const Skeleton, const FTransform& LocalToWorldTransform, const TArray<FTransform>& ComponentSpaceTransforms, const FColor& Color);
 
 	void SetWorldTime(const float NewTimeSeconds);

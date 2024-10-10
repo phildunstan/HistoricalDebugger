@@ -157,16 +157,62 @@ void FHistoricalDebuggerDebugChannel::DrawSolidPlane(const FHistoricalDebuggerDe
 {
 }
 
+void FHistoricalDebuggerDebugChannel::DrawHUDString(const FHistoricalDebuggerDebugContext &DebugContext, const FVector2D &HUDTextLocation, const FString &Text, const FColor &TextColor, bool bDrawShadow, float FontScale)
+{
+	DebugDrawQueue->DrawDebugHUDString(DebugContext, WorldTimeSeconds, Iteration, HUDTextLocation, Text, TextColor, Lifetime, bDrawShadow, FontScale);
+}
+
+
 void FHistoricalDebuggerDebugChannel::DrawHitResult(const FHistoricalDebuggerDebugContext &DebugContext, const FHitResult &HitResult)
 {
-	if (HitResult.IsValidBlockingHit())
+	if (HitResult.bStartPenetrating)
 	{
-		DrawLine(DebugContext, HitResult.TraceStart, HitResult.ImpactPoint, FColor::Red);
+		DrawLine(DebugContext, HitResult.TraceStart, HitResult.TraceEnd, FColor::Red);
+	}
+	else if (HitResult.IsValidBlockingHit())
+	{
+		DrawLine(DebugContext, HitResult.TraceStart, HitResult.ImpactPoint, FColor::Yellow);
 		DrawLine(DebugContext, HitResult.ImpactPoint, HitResult.TraceEnd, FColor::Red);
 	}
 	else
 	{
 		DrawLine(DebugContext, HitResult.TraceStart, HitResult.TraceEnd, FColor::Green);
+	}
+}
+
+void FHistoricalDebuggerDebugChannel::DrawHitResults(const FHistoricalDebuggerDebugContext &DebugContext, const FVector& StartLocation, const FVector& EndLocation, const TArray<FHitResult> &HitResults)
+{
+	if (HitResults.IsEmpty())
+	{
+		DrawLine(DebugContext, StartLocation, EndLocation, FColor::Green);
+	}
+	else
+	{
+		const FHitResult& FirstHitResult = HitResults[0];
+		if (FirstHitResult.bStartPenetrating)
+		{
+			DrawLine(DebugContext, StartLocation, EndLocation, FColor::Red);
+		}
+		else
+		{
+			DrawLine(DebugContext, FirstHitResult.TraceStart, FirstHitResult.ImpactPoint, FColor::Yellow);
+			
+			for (int Index = 0; Index < HitResults.Num(); ++Index)
+			{
+				const FHitResult& HitResult = HitResults[Index];
+				if (HitResult.bBlockingHit)
+				{
+					const FVector LineEnd = (Index < HitResults.Num() - 1) ? HitResults[Index + 1].ImpactPoint : HitResults[Index].TraceEnd;
+					DrawLine(DebugContext, HitResult.ImpactPoint, LineEnd, FColor::Red);
+					break;
+				}
+				else
+				{
+					const FVector LineEnd = (Index < HitResults.Num() - 1) ? HitResults[Index + 1].ImpactPoint : HitResults[Index].TraceEnd;
+					DrawLine(DebugContext, HitResult.ImpactPoint, LineEnd, FColor::Orange);
+				}
+			}
+		}
 	}
 }
 

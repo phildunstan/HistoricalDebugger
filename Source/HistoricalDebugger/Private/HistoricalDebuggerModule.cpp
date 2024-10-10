@@ -66,7 +66,8 @@ void FHistoricalDebuggerModule::ShutdownModule()
 	FVisualLogger::Get().UnregisterExtension(FName("HistoricalDebugger"), nullptr);
 #endif
 	
-    UHistoricalDebuggerSubsystem::StaticClass()->RemoveFromRoot();
+	// if (UHistoricalDebuggerSubsystem::StaticClass()->IsRooted())
+	//	UHistoricalDebuggerSubsystem::StaticClass()->RemoveFromRoot();
 }
 
 #undef LOCTEXT_NAMESPACE

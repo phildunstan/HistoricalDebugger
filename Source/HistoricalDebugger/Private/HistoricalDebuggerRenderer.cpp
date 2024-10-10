@@ -102,6 +102,12 @@ void FHistoricalDebuggerRenderer::Draw(const UWorld* World, const TArray<FHistor
 				DrawDebugMesh(World, MeshData.Vertices, MeshData.Indices, Command.Color, Command.bPersistentLines, 0.0f, DepthPriority);
 				break;
 			}
+			case FHistoricalDebuggerDrawCommand::EDrawType::HUDString:
+			{
+				const FHistoricalDebuggerDrawCommand::FHUDStringData& StringData = Command.Data.Get<FHistoricalDebuggerDrawCommand::FHUDStringData>();
+				DrawDebugString(World, FVector(StringData.HUDTextLocation, 0.0f), StringData.Text, nullptr, Command.Color, 0.0f, StringData.bDrawShadow, StringData.FontScale);
+				break;
+			}
 			default:
 				break;
 			}

@@ -239,6 +239,20 @@ FHistoricalDebuggerDrawCommand FHistoricalDebuggerDrawCommand::DrawDebugMesh(con
 	return Command;
 }
 
+FHistoricalDebuggerDrawCommand FHistoricalDebuggerDrawCommand::DrawDebugHUDString( const FHistoricalDebuggerDebugContext &DebugContext, float WorldTimeSeconds, int Iteration, const FVector2D &HUDTextLocation, const FString &Text, const FColor &Color, float Lifetime, bool bDrawShadow, float FontScale)
+{
+	FHistoricalDebuggerDrawCommand Command;
+	Command.Type = EDrawType::HUDString;
+	Command.DebugContext = DebugContext;
+	Command.WorldTimeSeconds = WorldTimeSeconds;
+	Command.Iteration = Iteration;
+	Command.Color = Color;
+	Command.Position = FVector(HUDTextLocation, 0.0f);
+	Command.Lifetime = Lifetime;
+	Command.Data.Emplace<FHUDStringData>(HUDTextLocation, Text, bDrawShadow, FontScale);
+	return Command;
+}
+
 
 FHistoricalDebuggerDrawQueue::FHistoricalDebuggerDrawQueue()
 	: CenterOfInterest(FVector::ZeroVector)
@@ -458,6 +472,13 @@ void FHistoricalDebuggerDrawQueue::DrawDebugMesh(const FHistoricalDebuggerDebugC
 		CommandQueue.Emplace(FHistoricalDebuggerDrawCommand::DrawDebugMesh(DebugContext, WorldTimeSeconds, Iteration, Vertices, Indices, Color, bPersistentLines, Lifetime, DepthPriority, Thickness));
 		AddTimeToCommandQueueTimes(WorldTimeSeconds);
 	}
+}
+
+void FHistoricalDebuggerDrawQueue::DrawDebugHUDString(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector2D& HUDTextLocation, const FString& Text, const FColor& Color, float Lifetime, bool bDrawShadow, float FontScale)
+{
+	FScopeLock Lock(&CommandQueueCS);
+	CommandQueue.Emplace(FHistoricalDebuggerDrawCommand::DrawDebugHUDString(DebugContext, WorldTimeSeconds, Iteration, HUDTextLocation, Text, Color, Lifetime, bDrawShadow, FontScale));
+	AddTimeToCommandQueueTimes(WorldTimeSeconds);
 }
 
 void FHistoricalDebuggerDrawQueue::SetRegionOfInterest(const FVector& Pos, float InRadius)

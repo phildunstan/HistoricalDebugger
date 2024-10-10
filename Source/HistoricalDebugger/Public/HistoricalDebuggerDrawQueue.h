@@ -29,6 +29,7 @@ public:
 	static FHistoricalDebuggerDrawCommand DrawDebugCylinder(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector& Start, const FVector& End, float Radius, int32 Segments, const  FColor& Color, bool bPersistentLines, float Lifetime, uint8 DepthPriority, float Thickness);
 	static FHistoricalDebuggerDrawCommand DrawDebugCone(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector& Origin, const FVector& Direction, float Length, float AngleWidth, float AngleHeight, int32 NumSides, const FColor& Color, bool bPersistentLines, float Lifetime, uint8 DepthPriority, float Thickness);
 	static FHistoricalDebuggerDrawCommand DrawDebugMesh(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const TArray<FVector>& Vertices, const TArray<int32>& Indices, const FColor& Color, bool bPersistentLines, float Lifetime, uint8 DepthPriority, float Thickness);
+	static FHistoricalDebuggerDrawCommand DrawDebugHUDString(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector2D& HUDTextLocation, const FString& Text, const FColor& Color, float Lifetime, bool bDrawShadow, float FontScale);
 
 	FHistoricalDebuggerDebugContext DebugContext;
 	float WorldTimeSeconds = 0.0f;
@@ -54,6 +55,7 @@ public:
 		Cylinder,
 		Cone,
 		Mesh,
+		HUDString,
 	};
 	EDrawType Type = EDrawType::None;
 
@@ -129,7 +131,14 @@ public:
 		TArray<FVector> Vertices;
 		TArray<int32> Indices;
 	};
-	TVariant<FPointData, FLineData, FArrowData, FSphereData, FBoxData, FStringData, FCircleData, FCapsuleData, FCylinderData, FConeData, FMeshData> Data;
+	struct FHUDStringData
+	{
+		FVector2D HUDTextLocation;
+		FString Text;
+		bool bDrawShadow;
+		float FontScale;
+	};
+	TVariant<FPointData, FLineData, FArrowData, FSphereData, FBoxData, FStringData, FCircleData, FCapsuleData, FCylinderData, FConeData, FMeshData, FHUDStringData> Data;
 };
 
 class HISTORICALDEBUGGER_API FHistoricalDebuggerDrawQueue
@@ -157,6 +166,8 @@ public:
 	void DrawDebugCylinder(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector& Start, const FVector& End, float Radius, int32 Segments, const FColor& Color, bool bPersistentLines, float Lifetime, uint8 DepthPriority, float Thickness);
 	void DrawDebugCone(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector& Origin, const FVector& Direction, float Length, float AngleWidth, float AngleHeight, int32 NumSides, const FColor& Color, bool bPersistentLines, float Lifetime, uint8 DepthPriority, float Thickness);
 	void DrawDebugMesh(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const TArray<FVector>& Vertices, const TArray<int32>& Indices, const FColor& Color, bool bPersistentLines, float Lifetime, uint8 DepthPriority, float Thickness);
+	
+	void DrawDebugHUDString(const FHistoricalDebuggerDebugContext& DebugContext, float WorldTimeSeconds, int Iteration, const FVector2D& HUDTextLocation, const FString& Text, const FColor& Color, float Lifetime, bool bDrawShadow, float FontScale);
 	
 	void SetRegionOfInterest(const FVector& Position, float InRadius);
 	const FVector& GetCenterOfInterest() const;
