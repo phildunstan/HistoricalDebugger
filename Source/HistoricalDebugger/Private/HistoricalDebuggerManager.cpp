@@ -386,9 +386,8 @@ void FHistoricalDebuggerManager::DrawImGui()
 		}
 
 		ImGui::Text("%.4f", GetDebugTimeSeconds());
-		
-		ImGui::End();
 	}
+	ImGui::End();
 #endif
 }
 
